@@ -1,22 +1,14 @@
 # Errors
 
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
-
-The Kittn API uses the following error codes:
+API'ın bu versiyonu standart HTTP status kodları ve error kodlarını dönmektedir. Error kodlarının açıklamaları aşağıda verilmiştir. API HTTP status kodları ve error kodlarına ek olarak özelleştirilmiş başka bir status kodu/error kodu dönmez. 
 
 
 Error Code | Meaning
 ---------- | -------
-400 | Bad Request -- Your request is invalid.
-401 | Unauthorized -- Your API key is wrong.
-403 | Forbidden -- The kitten requested is hidden for administrators only.
-404 | Not Found -- The specified kitten could not be found.
-405 | Method Not Allowed -- You tried to access a kitten with an invalid method.
-406 | Not Acceptable -- You requested a format that isn't json.
-410 | Gone -- The kitten requested has been removed from our servers.
-418 | I'm a teapot.
-429 | Too Many Requests -- You're requesting too many kittens! Slow down!
-500 | Internal Server Error -- We had a problem with our server. Try again later.
-503 | Service Unavailable -- We're temporarily offline for maintenance. Please try again later.
+400 | Bad Request -- Yapmaya çalıştığınız istek geçersiz. URL'i, header'larınızı ve varsa parametrelerinizi kontrol edin.
+401 | Unauthorized -- Muhtemelen API key'iniz geçersiz.
+403 | Forbidden -- Muhtemelen API key'iniz geçersiz.
+404 | Not Found -- Muhtemelen URL'iniz geçersiz. .
+405 | Method Not Allowed -- Yapmaya çalıştığınız istek geçersiz. URL'inizi kontrol edin.
+410 | Gone -- Sunucu tarafında olmayan bir metoda istek yapıyorsunuz. Bu hatayı alıyorsanız kendi tarafınızdaki kontrolleri tamamladıktan sonra sunucu yöneticisi ile iletişime geçin.
+500 | Internal Server Error -- Sunucu tarafında bir sorun yaşanıyor. Kısa bir süre sonra tekrar istek yapmayı deneyin. 500 hatası tekrarlanıyorsa, sunucu yöneticisi ile iletişime geçin.

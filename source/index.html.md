@@ -3,13 +3,13 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
+  - php
   - python
   - javascript
 
-toc_footers:
+<!-- toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
+  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a> -->
 
 includes:
   - errors
@@ -19,106 +19,186 @@ search: true
 code_clipboard: true
 ---
 
-# Introduction
+# Giriş
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Bu API belgesinde Mynet-Chartbeat API'ının detaylarına yer verilmiştir. API'a ait uçnokta(lar), CPM dağılımlarını, ilgili haberlerin klik davranışlarını ve bulundukları pozisyonlar için kaçıncı yüzdelik dilim içerisinde olduğu bilgilerini içermektedir. 
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+Sağ taraftaki koyu renkli bölgede kod örneklerini bulabilirsiniz. Birden fazla programlama dilinde kod örneği verilmiş ise, istediğiniz programlama dilindeki örneğe geçiş yapabilirsiniz.
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
 
 # Authentication
 
-> To authorize, use this code:
+API'ya istek yapabilmek için, HTTP Header'ları içerisine özel bir key:value ikilisi eklemelisiniz. Bu ikilide key: 'Authorization' ve value:'mynetcb-api-user-aD7yH5' olmalıdır. 
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+```shell
+# Örneğin shell üzerinden bir request yaparken, Authorization Header'ını şu şekilde gönderebilirsiniz:
+curl "https://URL" \
+  -H "Authorization: mynetcb-api-user-aD7yH5"
 ```
+
+
+
+# /api
+
+## CPM Dağılımı ve Yüzdelik Dilim Bilgisi
+
+Bu versiyonda uygulama tek uçnokta üzerinden tüm veriyi tek seferde sunabilmektedir. /api uçnoktasına çeşitli programlama dilleri ve kütüphanelerle istek yapılabilir. Örnek kodlar yan taraftadır. 
 
 ```python
-import kittn
+import requests
 
-api = kittn.authorize('meowmeowmeow')
+URL = "https://mynetcb.com/api"
+
+headers = {
+    ...
+    'Authorization': 'mynetcb-api-user-aD7yH5',
+    ...
+}
+
+response = requests.get(URL, headers=headers)
 ```
+
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
+curl "https://mynetcb.com/api" \
+  -H "mynetcb-api-user-aD7yH5"
+```
+
+```php
+
+include('vendor/rmccue/requests/library/Requests.php');
+Requests::register_autoloader();
+
+$url = "https://mynetcb.com/api";
+
+$headers = array(
+    ...
+    'Authorization' => 'mynetcb-api-user-aD7yH5',
+    ...
+);
+$response = Requests::get($url, $headers);
+
 ```
 
 ```javascript
-const kittn = require('kittn');
+/*/
+/*/ nodejs-fetch
+/*/
+var fetch = require('node-fetch');
 
-let api = kittn.authorize('meowmeowmeow');
-```
+var url = 'https://mynetcb.com/api';
 
-> Make sure to replace `meowmeowmeow` with your API key.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+fetch(url, {
+    headers: {
+        ...
+        'Authorization': 'mynetcb-api-user-aD7yH5',
+        ...
+    }
+});
 
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
 ```
 
 ```javascript
-const kittn = require('kittn');
+/*/
+/*/ nodejs-request
+/*/
+var request = require('request');
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+var headers = {
+    ...
+    'Authorization': 'mynetcb-api-user-aD7yH5',
+    ...
+};
+
+var options = {
+    url: 'https://mynetcb.com/api',
+    headers: headers
+};
+
+function callback(error, response, body) {
+    if (!error && response.statusCode == 200) {
+        console.log(body);
+    }
+}
+
+request(options, callback);
+
 ```
 
-> The above command returns JSON structured like this:
+
+> Yukarıdaki request, aşağıdaki gibi bir JSON objesi dönmektedir: 
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "links": [
+    {
+      "href": "https://www.mynet.com/video",
+      "cpm_distribution": null,
+      "clicks": 0,
+      "percentile": null
+    },
+    {
+      "href": "https://www.mynet.com/izmir-den-kahreden-haber-30-saat-sonra-enkazdan-cikarilan-kisinin-oldugu-belirlendi-110106634879",
+      "cpm_distribution": [
+        2.5537455,
+        3.712115,
+        4.3025595,
+        4.7143155,
+        5.0615945,
+        5.332733,
+        5.545604,
+        5.782559,
+        5.971346,
+        6.2183995,
+        6.451467,
+        6.690745,
+        6.9339105,
+        7.1910625,
+        7.5305655,
+        8.0145745,
+        8.876965,
+        9.961567,
+        11.729063
+      ],
+      "clicks": 6.2525465741,
+      "percentile": 53
+    },
+    {
+      "href": "https://www.mynet.com/muge-anli-izmir-deki-depremzedeler-icin-mobil-asevi-gonderdi-303575-mymagazin",
+      "cpm_distribution": [
+        1.9912775,
+        2.626986,
+        3.119844,
+        3.5861165,
+        3.999218,
+        4.3758115,
+        4.72582,
+        5.0393195,
+        5.3163115,
+        5.5536135,
+        5.7413035,
+        5.9289925,
+        6.153191,
+        6.4123055,
+        6.689674,
+        7.024987,
+        7.467856,
+        8.066679,
+        8.9262085
+      ],
+      "clicks": 3.9695597904,
+      "percentile": 21
+    },
+    ...
+    
+  ]
+}
 ```
 
-This endpoint retrieves all kittens.
+
 
 ### HTTP Request
 
@@ -126,116 +206,9 @@ This endpoint retrieves all kittens.
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Bu uçnokta, bu versiyonda herhangi bir query string parametresi gerektirmemektedir. 
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Hatırlatma - Authorization Header'ı gönderilmelidir. 
 </aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
 
